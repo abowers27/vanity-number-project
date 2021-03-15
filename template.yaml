@@ -1,0 +1,96 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  vanity-numbers-app
+
+Globals:
+  Function:
+    Timeout: 10
+
+Resources:
+  VanityNumberCreationFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: VanityNumberCreation
+      CodeUri: vanity-number-creation/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Role: !GetAtt IAMRole.Arn
+      Environment:
+        Variables:
+          table:
+            Ref: DynamoDBTableName
+
+    DependsOn:
+      - DynamoDBTable
+
+  DynamoDBTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName:
+        Ref: DynamoDBTableName
+      AttributeDefinitions:
+        - AttributeName: ContactNumber
+          AttributeType: S
+      KeySchema:
+        - AttributeName: ContactNumber
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: "5"
+        WriteCapacityUnits: "5"
+    DependsOn:
+      - IAMRole
+
+  IAMRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      Path: /
+      Policies:
+        - PolicyName: LambdaDynamoDB
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - "dynamodb:BatchGetItem"
+                  - "dynamodb:BatchWriteItem"
+                  - "dynamodb:TagResource"
+                  - "dynamodb:UntagResource"
+                  - "dynamodb:PutItem"
+                  - "dynamodb:DeleteItem"
+                  - "dynamodb:GetItem"
+                  - "dynamodb:Scan"
+                  - "dynamodb:Query"
+                  - "dynamodb:UpdateItem"
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                  - "logs:CreateLogStream"
+                  - "logs:CreateLogGroup"
+                  - "logs:PutLogEvents"
+                Resource: "*"
+
+Parameters:
+  LambdaFuncName:
+    Type: String
+    Default: VanityNumberCreation
+  DynamoDBTableName:
+    Type: String
+    Default: VanityNumbers
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  VanityNumberCreationFunction:
+    Description: "Vanity Number Creation Lambda Function ARN"
+    Value: !GetAtt VanityNumberCreationFunction.Arn
