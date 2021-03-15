@@ -8,6 +8,7 @@ Globals:
     Timeout: 10
 
 Resources:
+  # creates Lambda function
   VanityNumberCreationFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -23,7 +24,7 @@ Resources:
 
     DependsOn:
       - DynamoDBTable
-
+  # creates DynamoDB table
   DynamoDBTable:
     Type: "AWS::DynamoDB::Table"
     Properties:
@@ -40,7 +41,7 @@ Resources:
         WriteCapacityUnits: "5"
     DependsOn:
       - IAMRole
-
+  # creates role for Lambda to access DynamoDB
   IAMRole:
     Type: "AWS::IAM::Role"
     Properties:
