@@ -20,18 +20,3 @@
    b. Under 'Type' select 'User Defined' and set the 'Attribute' value to 'vanityNumbers'
 
 6. Under the 'Terminate / Transfer' tab on the left, select the 'Disconnect' block, then connect the 'Play prompt' blocks from steps 2 and 4.
-
-# CONTACT FLOW MAPPING
-
-1. - [Invoke AWS Lambda function]
-  2. - {Success} [Set contact attributes]
-    3. - {Success} [Play prompt]
-      4. - [Disconnect]
-    3. - {Error} [Play prompt]
-      4. - [Disconnect]
-  2. - {Error} [Play prompt]
-    3. - [Disconnect]
-
-# CONTACT FLOW MAPPING KEY
-[] = block
-{} = outcome (i.e. Success or Error)
