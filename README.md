@@ -1,9 +1,9 @@
-# CLOUDFORMATION DEPLOYMENT
+## Cloudformation Deployment
 
 1. From main directory, in terminal, run `sam build`
 2. Once build is complete, run `sam deploy` in terminal
 
-# CONTACT FLOW SETUP
+## Contact Flow Setup
 
 1. Under the `Integrate` tab on the left, select the `Invoke AWS Lambda function` block. To setup the lambda function block, do the following:
    a. Select `Select a function` and insert the ARN from the function created with the SAM template
