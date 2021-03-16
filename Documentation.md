@@ -15,8 +15,8 @@
 
 ### 2. **What shortcuts did you take that would be a bad practice in production?**
 
-- I tried to refrain from using any real shortcuts, although I do recognize there are always improvements that can be made. I'm aloways looking for ways I can improve my code.
+I tried to refrain from using any real shortcuts, although I do recognize there are always improvements that can be made. I'm aloways looking for ways I can improve my code.
 
 ### 3. **What would you have done with more time? We know you have a life. :-)**
 
-- With more time, I would have built out the website, and had it return the 5 most recent callers vanity numbers.
+With more time, I would have built out the website, and had it return the 5 most recent callers vanity numbers.
